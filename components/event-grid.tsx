@@ -1,6 +1,6 @@
 // components/event-grid.tsx
 import { EventCard } from '@/components/event-card';
-import { Event } from '@/lib/generated/prisma';
+import { Event } from '@prisma/client';
 import Link from 'next/link';
 
 interface EventGridProps {

@@ -1,5 +1,5 @@
 // prisma/seed.ts
-import { PrismaClient } from '../lib/generated/prisma'; // ou '@prisma/client' se for caminho padrão
+import { PrismaClient } from '@prisma/client'; // ou '@prisma/client' se for caminho padrão
 const prisma = new PrismaClient();
 
 async function main() {
