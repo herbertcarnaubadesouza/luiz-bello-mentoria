@@ -1,0 +1,42 @@
+import { Button } from "@/components/ui/button"
+import { ChevronDown } from "lucide-react"
+
+export function Header() {
+  return (
+    <header className="bg-white shadow-sm border-b">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center space-x-8">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-orange-500 rounded mr-2 flex items-center justify-center">
+                <span className="text-white font-bold text-lg">B</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">Blacktag</span>
+              <span className="text-sm text-gray-500 ml-1">by Ingresse</span>
+            </div>
+
+            <nav className="hidden md:flex items-center space-x-6">
+              <a href="#" className="text-gray-600 hover:text-gray-900">
+                Eventos
+              </a>
+              <a href="#" className="text-gray-600 hover:text-gray-900">
+                Lojas
+              </a>
+              <div className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer">
+                <span>Organize</span>
+                <ChevronDown className="ml-1 h-4 w-4" />
+              </div>
+              <a href="#" className="text-gray-600 hover:text-gray-900">
+                Formaturas
+              </a>
+            </nav>
+          </div>
+
+          <Button variant="outline" className="bg-gray-100 text-gray-700 border-gray-300">
+            Entrar
+          </Button>
+        </div>
+      </div>
+    </header>
+  )
+}
