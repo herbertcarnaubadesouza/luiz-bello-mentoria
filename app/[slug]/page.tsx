@@ -1,19 +1,18 @@
-// app/[slug]/page.tsx
 import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-interface SlugPageProps {
-    params: {
-        slug: string;
-    };
-}
+export const dynamic = 'force-dynamic';
 
-export default async function EventSlugPage({ params }: SlugPageProps) {
+export default async function EventSlugPage({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
+
     const event = await prisma.event.findUnique({
-        where: {
-            slug: params.slug,
-        },
+        where: { slug },
     });
 
     if (!event) return notFound();
