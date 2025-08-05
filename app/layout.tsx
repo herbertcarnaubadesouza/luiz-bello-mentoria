@@ -1,13 +1,15 @@
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
-import Loader from '../components/progress'; // 👈 import novo
+import Loader from '../components/progress';
 import './globals.css';
 
 export const metadata: Metadata = {
-    title: 'v0 App',
-    description: 'Created with v0',
-    generator: 'v0.dev',
+    title: 'Role VIP',
+    description: 'O melhor sistema de ingresso que existe na capital paulista!',
+    generator: 'Luiz Bello',
 };
 
 export default function RootLayout({
@@ -28,7 +30,9 @@ html {
             </head>
             <body>
                 <Loader />
+                <Header />
                 {children}
+                <Footer />
             </body>
         </html>
     );
