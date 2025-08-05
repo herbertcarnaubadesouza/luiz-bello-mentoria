@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import styles from '../../styles/EventSlugPage.module.css';
-import TicketSelector from './TicketSelector'; // novo arquivo client-side
+import TicketSelector from './ticketSelector';
 
 export const dynamic = 'force-dynamic';
 
