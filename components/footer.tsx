@@ -1,35 +1,51 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
+  const [showCookiesBanner, setShowCookiesBanner] = useState(true);
+
+  const handleAcceptCookies = () => {
+    setShowCookiesBanner(false);
+    // Se quiser salvar no localStorage para não mostrar de novo
+    localStorage.setItem("cookiesAccepted", "true");
+  };
+
   return (
     <footer className="bg-gray-900 text-white py-8">
       <div className="container mx-auto px-4">
-        <div className="bg-gray-800 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex-1 text-sm">
-              <p>
-                A ROLE VIP utiliza cookies que são necessários ao funcionamento
-                adequado de suas Páginas. Também, a ROLE VIP poderá utilizar
-                cookies para melhorar a sua experiência, permitir o início de
-                sessão seguro, memorizar os detalhes de seu início de sessão,
-                gerir a sessão, recolher estatísticas, as funcionalidades das
-                Páginas e oferecer conteúdo adequado aos seus interesses. Para
-                mais informações acesse as{" "}
-                <a href="#" className="text-orange-500 hover:underline">
-                  Políticas de Cookies
-                </a>{" "}
-                e{" "}
-                <a href="#" className="text-orange-500 hover:underline">
-                  Termos e Políticas
-                </a>
-                .
-              </p>
+        {showCookiesBanner && (
+          <div className="bg-gray-800 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1 text-sm">
+                <p>
+                  A ROLE VIP utiliza cookies que são necessários ao
+                  funcionamento adequado de suas Páginas. Também, a ROLE VIP
+                  poderá utilizar cookies para melhorar a sua experiência,
+                  permitir o início de sessão seguro, memorizar os detalhes de
+                  seu início de sessão, gerir a sessão, recolher estatísticas,
+                  as funcionalidades das Páginas e oferecer conteúdo adequado
+                  aos seus interesses. Para mais informações acesse as{" "}
+                  <a href="#" className="text-orange-500 hover:underline">
+                    Políticas de Cookies
+                  </a>{" "}
+                  e{" "}
+                  <a href="#" className="text-orange-500 hover:underline">
+                    Termos e Políticas
+                  </a>
+                  .
+                </p>
+              </div>
+              <Button
+                className="bg-orange-500 hover:bg-orange-600 text-white ml-4 whitespace-nowrap"
+                onClick={handleAcceptCookies}
+              >
+                ✓ Aceitar Cookies
+              </Button>
             </div>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white ml-4 whitespace-nowrap">
-              ✓ Aceitar Cookies
-            </Button>
           </div>
-        </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
