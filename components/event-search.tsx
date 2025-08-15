@@ -26,7 +26,6 @@ export function EventSearch() {
           <ChevronDown className="h-4 w-4" />
         </div>
       </div>
-
       <div className="flex space-x-2 max-w-md">
         <div className="relative flex-1">
           <Input placeholder="Pesquisar Eventos" className="pr-10" />

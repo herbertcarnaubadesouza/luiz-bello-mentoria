@@ -21,7 +21,6 @@ export default function CheckoutPage() {
 
   // --- Timer de 15 minutos ---
   const [timeLeft, setTimeLeft] = useState(15 * 60);
-
   useEffect(() => {
     if (timeLeft <= 0) return;
     const interval = setInterval(() => {
@@ -36,6 +35,7 @@ export default function CheckoutPage() {
     return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
+  // --- Cálculos ---
   const totalTickets =
     cart?.items?.reduce((acc: number, item: any) => acc + item.qty, 0) || 0;
   const totalPrice =
@@ -49,6 +49,31 @@ export default function CheckoutPage() {
       0
     ) || 0;
   const grandTotal = totalPrice + totalFee;
+
+  // --- PIX ---
+  const [pixData, setPixData] = useState<any>(null);
+  const [loadingPix, setLoadingPix] = useState(false);
+
+  async function gerarPix() {
+    setLoadingPix(true);
+    try {
+      const res = await fetch("/api/mercadopago/pix", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "Compra de ingressos",
+          quantity: totalTickets,
+          price: grandTotal,
+        }),
+      });
+      const data = await res.json();
+      setPixData(data);
+    } catch (err) {
+      console.error("Erro ao gerar PIX:", err);
+    } finally {
+      setLoadingPix(false);
+    }
+  }
 
   const paymentMethods = [
     {
@@ -156,21 +181,37 @@ export default function CheckoutPage() {
             ))}
           </div>
 
+          {/* PIX */}
           {selectedPayment === "pix" && (
-            <div className="p-4 border rounded-lg text-center text-sm text-gray-600 bg-gray-100 space-y-2">
-              <div className="mb-2 font-semibold text-gray-800">
-                Informações sobre o pagamento via PIX
-              </div>
-              <div>O pagamento é instantâneo e liberação imediata.</div>
-              <div>
-                Ao clicar em <strong>“Finalizar Compra”</strong> você será
-                encaminhado para um ambiente seguro, onde encontrará o passo a
-                passo para realizar o pagamento.
-              </div>
-              <div className="mt-4">Código Pix gerado aqui (visual)</div>
+            <div className="p-4 border rounded-lg text-center text-sm text-gray-600 bg-gray-100 space-y-4">
+              {!pixData ? (
+                <>
+                  <p>O pagamento é instantâneo e liberação imediata.</p>
+                  <button
+                    onClick={gerarPix}
+                    disabled={loadingPix}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg"
+                  >
+                    {loadingPix ? "Gerando PIX..." : "Gerar PIX"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-700">Escaneie o QR Code abaixo:</p>
+                  <img
+                    src={`data:image/png;base64,${pixData.point_of_interaction.transaction_data.qr_code_base64}`}
+                    alt="QR Code Pix"
+                    className="mx-auto"
+                  />
+                  <p className="text-sm break-all bg-white p-2 rounded">
+                    {pixData.point_of_interaction.transaction_data.qr_code}
+                  </p>
+                </>
+              )}
             </div>
           )}
 
+          {/* Cartão */}
           {selectedPayment === "card" && (
             <div className="grid grid-cols-1 gap-3">
               <input
@@ -194,6 +235,7 @@ export default function CheckoutPage() {
             </div>
           )}
 
+          {/* Apple Pay */}
           {selectedPayment === "apple" && (
             <div className="p-4 border rounded-lg text-center text-sm text-gray-600 bg-gray-100 space-y-2">
               <div className="mb-2 font-semibold text-gray-800">

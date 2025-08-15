@@ -25,12 +25,8 @@ export function Header() {
               <a href="#" className="text-gray-600 hover:text-gray-900">
                 Lojas
               </a>
-              <div className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer">
-                <span>Organize</span>
-                <ChevronDown className="ml-1 h-4 w-4" />
-              </div>
               <a href="#" className="text-gray-600 hover:text-gray-900">
-                Formaturas
+                Anuncie também
               </a>
             </nav>
           </div>
