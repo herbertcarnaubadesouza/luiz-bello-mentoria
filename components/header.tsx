@@ -36,6 +36,19 @@ export function Header() {
             <span className="text-sm text-gray-500 ml-1">VIP</span>
           </Link>
 
+          {/* Links do menu */}
+          <nav className="flex items-center space-x-6">
+            <Link href="/eventos" className="text-gray-700 hover:text-gray-900">
+              Eventos
+            </Link>
+            <Link href="/loja" className="text-gray-700 hover:text-gray-900">
+              Loja
+            </Link>
+            <Link href="/anuncie" className="text-gray-700 hover:text-gray-900">
+              Anuncie
+            </Link>
+          </nav>
+
           {/* Botão Login ou Perfil */}
           {user ? (
             <div className="flex items-center space-x-4">
