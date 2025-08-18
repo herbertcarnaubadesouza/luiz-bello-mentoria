@@ -1,17 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
 
-    // Tenta achar usuário
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Preencha todos os campos" },
+        { status: 400 }
+      );
+    }
+
     let user = await prisma.user.findUnique({ where: { email } });
 
-    // Se não existir, cria o usuário
+    // Cria o usuário se não existir
     if (!user) {
       const hashedPassword = await bcrypt.hash(password, 10);
       user = await prisma.user.create({
@@ -19,13 +25,11 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Verifica a senha
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return NextResponse.json({ error: "Senha inválida" }, { status: 401 });
     }
 
-    // Aqui você pode criar token JWT ou sessão (simplificado)
     return NextResponse.json({ success: true, userId: user.id });
   } catch (err) {
     console.error(err);
