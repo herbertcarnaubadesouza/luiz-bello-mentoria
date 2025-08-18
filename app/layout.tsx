@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import Loader from "../components/progress";
 import "./globals.css";
+import { AuthProvider } from "./context/AuthContext"; // 🔥 importando o provider
 
 export const metadata: Metadata = {
   title: "ROLE VIP",
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <head>
         <style>{`
 html {
@@ -29,10 +30,12 @@ html {
         `}</style>
       </head>
       <body>
-        <Loader />
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Loader />
+          <Header />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

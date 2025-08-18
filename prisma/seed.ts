@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -9,6 +10,9 @@ function formatarData(date: Date) {
 }
 
 async function main() {
+  // Criptografa a senha "senha123"
+  const senhaHash = await bcrypt.hash("senha123", 10);
+
   // Criar usuários fixos para representar ingressos Masculino e Feminino
   const [userMasculino, userFeminino] = await Promise.all([
     prisma.user.upsert({
@@ -17,7 +21,7 @@ async function main() {
       create: {
         name: "Masculino",
         email: "masculino@seed.com",
-        password: "senha123",
+        password: senhaHash,
       },
     }),
     prisma.user.upsert({
@@ -26,7 +30,7 @@ async function main() {
       create: {
         name: "Feminino",
         email: "feminino@seed.com",
-        password: "senha123",
+        password: senhaHash,
       },
     }),
   ]);
@@ -62,12 +66,10 @@ async function main() {
   ];
 
   for (const eventData of events) {
-    // Verifica se o evento já existe
     let event = await prisma.event.findUnique({
       where: { slug: eventData.slug },
     });
 
-    // Se não existir, cria
     if (!event) {
       event = await prisma.event.create({ data: eventData });
       console.log(
@@ -79,12 +81,9 @@ async function main() {
       );
     }
 
-    // Cria ticket masculino se não existir
+    // Tickets Masculino
     const ticketMasculinoExists = await prisma.ticket.findFirst({
-      where: {
-        userId: userMasculino.id,
-        eventId: event.id,
-      },
+      where: { userId: userMasculino.id, eventId: event.id },
     });
 
     if (!ticketMasculinoExists) {
@@ -98,12 +97,9 @@ async function main() {
       });
     }
 
-    // Cria ticket feminino se não existir
+    // Tickets Feminino
     const ticketFemininoExists = await prisma.ticket.findFirst({
-      where: {
-        userId: userFeminino.id,
-        eventId: event.id,
-      },
+      where: { userId: userFeminino.id, eventId: event.id },
     });
 
     if (!ticketFemininoExists) {

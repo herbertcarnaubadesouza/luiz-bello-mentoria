@@ -56,7 +56,10 @@ export function Footer() {
               <span className="text-xl font-bold">ROLE VIP</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Plataforma de eventos e ingressos
+              Sua plataforma confiável para venda de ingressos dos principais
+              eventos da sua cidade. Siga-nos nas redes sociais, explore nossas
+              FAQs ou entre em contato para mais informações. Todos os direitos
+              reservados.
             </p>
           </div>
 
